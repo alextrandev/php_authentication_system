@@ -1,3 +1,8 @@
+<?php
+define('BASE_URL', 'http://localhost:8005');
+include 'config.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
