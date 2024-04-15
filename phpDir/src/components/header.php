@@ -1,6 +1,5 @@
 <?php
-define('BASE_URL', 'http://localhost:8005');
-include 'config.php';
+include './components/config.php';
 ?>
 
 <!DOCTYPE html>

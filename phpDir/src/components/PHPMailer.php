@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
 // send verification mail
-$link = BASE_URL . $_SERVER['PHP_SELF'] . "?email=$email&token=$token";
+$link = BASE_URL . "/registration_verify.php" . "?email=$email&token=$token";
 $email_msg = 'Please click this link to verify your account <br>';
 $email_msg .= '<a href="' . $link . '">Click here</a>';
 
