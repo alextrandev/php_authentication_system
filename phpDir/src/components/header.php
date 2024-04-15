@@ -23,11 +23,14 @@ include('config.php');
 
             <div class="nav">
                 <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="registration.php">Registration</a></li>
-                    <li><a href="login.php">Login</a></li>
-                    <li><a href="dashboard.php">Dashboard</a></li>
-                    <li><a href="logout.php">Logout</a></li>
+                    <li><a href="<?= BASE_URL ?>">Home</a></li>
+                    <?php if (isset($_SESSION['user'])) : ?>
+                        <li><a href="<?= BASE_URL ?>/dashboard.php">Dashboard</a></li>
+                        <li><a href="<?= BASE_URL ?>/logout.php">Logout</a></li>
+                    <?php else : ?>
+                        <li><a href="<?= BASE_URL ?>/registration.php">Register</a></li>
+                        <li><a href="<?= BASE_URL ?>/login.php">Login</a></li>
+                    <?php endif; ?>
                 </ul>
             </div>
 
