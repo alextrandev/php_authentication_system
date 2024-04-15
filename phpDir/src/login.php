@@ -1,11 +1,12 @@
 <?php
+ob_start();
+session_start();
 if (isset($_SESSION['user'])) {
     include_once('./components/config.php');
     header('Location: ' . BASE_URL);
     exit();
 }
 
-include_once './components/header.php';
 
 if (isset($_POST['login_form'])) {
     try {
@@ -23,7 +24,8 @@ if (isset($_POST['login_form'])) {
             throw new Exception('Password cannot be empty');
         }
 
-        $stmt = $pdo->prepare("SELECT password FROM users WHERE email=?");
+        include_once('./components/config.php');
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email=?");
         $stmt->execute([$email]);
         $total = $stmt->rowCount();
         if (!$total) {
@@ -31,18 +33,22 @@ if (isset($_POST['login_form'])) {
             throw new Exception('Email not found. Try again or ' . $loginLink);
         }
 
-        $pwd_hash = $stmt->fetchColumn();
-        if (!password_verify($pwd, $pwd_hash)) {
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $row = $result[0];
+        if (!password_verify($pwd, $row['password'])) {
             $forgetPwdLink = "<a href='" . BASE_URL . "/forget_password.php" . "'>Recover password</a>";
             throw new Exception('Email or password does not match. Try again or ' . $forgetPwdLink);
         }
 
-        echo "success!";
+        unset($row['password']);
+        $_SESSION['user'] = $row;
+        header('Location: ' . BASE_URL . '/dashboard.php');
     } catch (Exception $e) {
         $error_msg = $e->getMessage();
     }
-}
-?>
+} ?>
+
+<?php include_once './components/header.php'; ?>
 
 <h2 class="mb_10">Login</h2>
 
@@ -70,4 +76,4 @@ if (isset($_POST['login_form'])) {
     </table>
 </form>
 
-<?php include './components/footer.php'; ?>
+<?php include_once './components/footer.php'; ?>

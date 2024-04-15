@@ -1,4 +1,7 @@
-<?php if (!isset($_SESSION['user'])) {
+<?php
+ob_start();
+session_start();
+if (!isset($_SESSION['user'])) {
     include('./components/config.php');
     header('Location: ' . BASE_URL . '/login.php');
     exit();
