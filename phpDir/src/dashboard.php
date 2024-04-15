@@ -5,8 +5,11 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-["firstname" => $fn, "lastname" => $ln, "email" => $email, "phone" => $phone] = $_SESSION['user'];
-?>
+["firstname" => $fn, "lastname" => $ln, "email" => $email, "phone" => $phone, "status" => $status] = $_SESSION['user']; ?>
+
+<?php if ($status == 0) : ?>
+    <p class="error">Please verify your email to get full access</p>
+<?php endif; ?>
 
 <h2 class="mb_10">Dashboard</h2>
 <p>Hi <?= $fn ?>, Welcome to dashboard</p>
