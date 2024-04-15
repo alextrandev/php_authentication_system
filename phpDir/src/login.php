@@ -9,15 +9,35 @@ include_once './components/header.php';
 
 if (isset($_POST['login_form'])) {
     try {
+        ['email' => $email, 'password' => $pwd] = $_POST;
+
         if ($email == '') {
             throw new Exception('Email cannot be empty');
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new Exception('Invalid email format (Example@example.com)');
         }
 
         if ($pwd == '') {
             throw new Exception('Password cannot be empty');
         }
+
+        $stmt = $pdo->prepare("SELECT password FROM users WHERE email=?");
+        $stmt->execute([$email]);
+        $total = $stmt->rowCount();
+        if (!$total) {
+            $loginLink = "<a href='" . BASE_URL . "/registration.php" . "'>Create new account</a>";
+            throw new Exception('Email not found. Try again or ' . $loginLink);
+        }
+
+        $pwd_hash = $stmt->fetchColumn();
+        if (!password_verify($pwd, $pwd_hash)) {
+            $forgetPwdLink = "<a href='" . BASE_URL . "/forget_password.php" . "'>Recover password</a>";
+            throw new Exception('Email or password does not match. Try again or ' . $forgetPwdLink);
+        }
+
+        echo "success!";
     } catch (Exception $e) {
         $error_msg = $e->getMessage();
     }
@@ -34,11 +54,11 @@ if (isset($_POST['login_form'])) {
     <table class="t2">
         <tr>
             <td>Email</td>
-            <td><input type="text" name="" autocomplete="off"></td>
+            <td><input type="text" name="email" value="<?= $email ?? '' ?>" autocomplete="off"></td>
         </tr>
         <tr>
             <td>Password</td>
-            <td><input type="password" name="" autocomplete="off"></td>
+            <td><input type="password" name="password" autocomplete="off"></td>
         </tr>
         <tr>
             <td></td>
