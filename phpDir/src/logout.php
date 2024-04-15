@@ -1,3 +1,5 @@
-<?php include './components/header.php'; ?>
-<h1>logout</h1>
-<?php include './components/footer.php'; ?>
+<?php include './components/header.php';
+session_unset();
+session_destroy();
+header('Location: ' . BASE_URL . '/login.php?logout=1');
+exit;

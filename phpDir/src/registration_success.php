@@ -1,7 +1,4 @@
-<?php
-include "./components/header.php";
-include "./components/config.php";
-?>
+<?php include "./components/header.php"; ?>
 
 <h2 class="mb_10">Registration Successful!</h2>
 

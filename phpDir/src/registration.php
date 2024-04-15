@@ -4,7 +4,6 @@ if (isset($_POST["registration_form"])) {
     try {
         list('firstname' => $fn, 'lastname' => $ln, 'email' => $email, 'phone' => $phone, 'password' => $pwd, 'retype_password' => $pwd_retype) = $_POST;
 
-        include_once './components/config.php';
         include './components/input_validation.php';
 
         $password = password_hash($pwd, PASSWORD_DEFAULT);

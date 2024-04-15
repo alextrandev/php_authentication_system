@@ -1,8 +1,5 @@
-<?php
-ob_start();
-session_start();
+<?php include './components/header.php';
 if (isset($_SESSION['user'])) {
-    include_once('./components/config.php');
     header('Location: ' . BASE_URL);
     exit();
 }
@@ -24,7 +21,6 @@ if (isset($_POST['login_form'])) {
             throw new Exception('Password cannot be empty');
         }
 
-        include_once('./components/config.php');
         $stmt = $pdo->prepare("SELECT * FROM users WHERE email=?");
         $stmt->execute([$email]);
         $total = $stmt->rowCount();
@@ -48,12 +44,12 @@ if (isset($_POST['login_form'])) {
     }
 } ?>
 
-<?php include_once './components/header.php'; ?>
-
 <h2 class="mb_10">Login</h2>
 
 <?php if (isset($error_msg)) : ?>
     <p class='error'><?= $error_msg ?></p>
+<?php elseif (isset($_GET['logout'])) : ?>
+    <p class='success'>Successfully logged out</p>
 <?php endif; ?>
 
 <form action="" method="post">

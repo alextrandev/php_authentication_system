@@ -1,13 +1,9 @@
-<?php
-ob_start();
-session_start();
+<?php include './components/header.php';
 if (!isset($_SESSION['user'])) {
     include('./components/config.php');
     header('Location: ' . BASE_URL . '/login.php');
     exit();
-}
-
-include './components/header.php'; ?>
+} ?>
 
 <h2 class="mb_10">Dashboard</h2>
 <p>Hi Alex, Welcome to dashboard</p>

@@ -1,4 +1,4 @@
-<?php include_once('./components/config.php');
+<?php include './components/header.php';
 
 if (!isset($_REQUEST['email']) || !isset($_REQUEST['token'])) {
     header("Location: " . BASE_URL);
