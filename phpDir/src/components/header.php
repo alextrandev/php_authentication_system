@@ -1,7 +1,3 @@
-<?php
-include './components/config.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
