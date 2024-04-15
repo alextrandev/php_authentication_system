@@ -12,27 +12,25 @@
         <th>Email</th>
         <th>Phone</th>
     </tr>
-    <tr>
-        <td>1</td>
-        <td>Alex</td>
-        <td>Tran</td>
-        <td>alex@example.com</td>
-        <td>111111</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Matt</td>
-        <td>Jones</td>
-        <td>matt@example.com</td>
-        <td>222222</td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>Vera</td>
-        <td>Smith</td>
-        <td>vera@example.com</td>
-        <td>3333333</td>
-    </tr>
+    <?php
+    $stmt = $pdo->prepare("SELECT * FROM users");
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($result as $id => $user) :
+        ["firstname" => $fn, "lastname" => $ln, "email" => $email, "phone" => $phone] = $user;
+        $id++;
+        echo <<<HTML
+            <tr>
+                <td>$id</td>
+                <td>$fn</td>
+                <td>$ln</td>
+                <td>$email</td>
+                <td>$phone</td>
+            </tr>
+        HTML;
+    endforeach;
+    ?>
 </table>
 
 <?php include './components/footer.php'; ?>
