@@ -3,28 +3,31 @@ if (!isset($_SESSION['user'])) {
     include('./components/config.php');
     header('Location: ' . BASE_URL . '/login.php');
     exit();
-} ?>
+}
+
+["firstname" => $fn, "lastname" => $ln, "email" => $email, "phone" => $phone] = $_SESSION['user'];
+?>
 
 <h2 class="mb_10">Dashboard</h2>
-<p>Hi Alex, Welcome to dashboard</p>
+<p>Hi <?= $fn ?>, Welcome to dashboard</p>
 
 <h2 class="mt_20">Your Profile Information</h2>
 <table class="t1">
     <tr>
         <td>First Name:</td>
-        <td>Alex</td>
+        <td><?= $fn ?></td>
     </tr>
     <tr>
         <td>Last Name:</td>
-        <td>Tran</td>
+        <td><?= $ln ?></td>
     </tr>
     <tr>
         <td>Email:</td>
-        <td>alex@gexample.com</td>
+        <td><?= $email ?></td>
     </tr>
     <tr>
         <td>Phone:</td>
-        <td>111111</td>
+        <td><?= $phone ?>/td>
     </tr>
 </table>
 
