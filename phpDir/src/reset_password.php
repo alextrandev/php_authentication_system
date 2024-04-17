@@ -10,7 +10,7 @@ $stmt = $pdo->prepare("SELECT password FROM users WHERE email=? AND token=?");
 $stmt->execute([$email, $token]);
 $total = $stmt->rowCount();
 if (!$total) {
-    header("Location: " . BASE_URL . "/forget_password.php");
+    header("Location: " . BASE_URL . "/forget_password.php?expire=1");
     exit();
 }
 $pwd_old = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
@@ -34,7 +34,7 @@ if (isset($_POST["reset_form"])) {
         $stmt = $pdo->prepare("UPDATE users SET password=?, token=?, status=? WHERE email=? AND token=?");
         $stmt->execute([$password, '', 1, $email, $token]);
 
-        $success_msg = "Password reset successful. You can now login";
+        header('Location: ' . BASE_URL . '/login.php?reset=1');
     } catch (Exception $e) {
         $error_msg = $e->getMessage();
     }
@@ -45,8 +45,6 @@ if (isset($_POST["reset_form"])) {
 
 <?php if (isset($error_msg)) : ?>
     <p class='error'><?= $error_msg ?></p>
-<?php elseif (isset($success_msg)) : ?>
-    <p class='success'><?= $success_msg ?></p>
 <?php endif; ?>
 
 <form action="" method="post">

@@ -43,6 +43,8 @@ if (isset($_POST['forget_form'])) {
     <p class='error'><?= $error_msg ?></p>
 <?php elseif (isset($success_msg)) : ?>
     <p class='success'><?= $success_msg ?></p>
+<?php elseif (isset($_GET['expire'])) : ?>
+    <p class='error'>Reset link expired or does not exist. Please try again</p>
 <?php endif; ?>
 
 <form action="" method="post">

@@ -50,6 +50,8 @@ if (isset($_POST['login_form'])) {
     <p class='error'><?= $error_msg ?></p>
 <?php elseif (isset($_GET['logout'])) : ?>
     <p class='success'>Successfully logged out</p>
+<?php elseif (isset($_GET['reset'])) : ?>
+    <p class='success'>Password reset sucessful. You can now login</p>
 <?php endif; ?>
 
 <form action="" method="post">
