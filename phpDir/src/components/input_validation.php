@@ -25,8 +25,10 @@ if ($phone == '') {
     throw new Exception('Phone number cannot be empty');
 }
 
-if ($pwd == '' || $pwd_retype == '') {
+if ($pwd == '') {
     throw new Exception('Password cannot be empty');
-} elseif ($pwd !== $pwd_retype) {
+}
+
+if ($pwd !== $pwd_retype) {
     throw new Exception('Passwords does not match');
 }
