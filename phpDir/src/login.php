@@ -66,7 +66,7 @@ if (isset($_POST['login_form'])) {
             <td></td>
             <td>
                 <input type="submit" value="Login" name="login_form">
-                <a href="forget-password.php" class="primary_color">Forget Password</a>
+                <a href="<?= BASE_URL ?>/forget_password.php" class="primary_color">Forget Password</a>
             </td>
         </tr>
     </table>
