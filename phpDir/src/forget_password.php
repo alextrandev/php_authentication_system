@@ -20,6 +20,17 @@ if (isset($_POST['forget_form'])) {
             throw new Exception('Email not found. Try again or ' . $registerLink);
         }
 
+        $token = time();
+        $stmt = $pdo->prepare("UPDATE users SET token=? WHERE email=?");
+        $stmt->execute([$token, $email]);
+
+        //send reset mail with PHPMailer
+        $link = BASE_URL . "/reset_password.php" . "?email=$email&token=$token";
+        $email_msg = 'Please click this link to reset your password <br>';
+        $email_msg .= '<a href="' . $link . '">Click here</a>';
+        $email_subject = 'Password reset';
+        include './components/PHPMailer.php';
+
         $success_msg = "Please check your email for password reset instruction";
     } catch (Exception $e) {
         $error_msg = $e->getMessage();
