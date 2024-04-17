@@ -11,7 +11,13 @@ if (isset($_POST["registration_form"])) {
         $stmt = $pdo->prepare("INSERT INTO users (firstname, lastname, email, phone, password, token, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$fn, $ln, $email, $phone, $password, $token, 0]);
 
+        //send verification mail with PHPMailer
+        $link = BASE_URL . "/registration_verify.php" . "?email=$email&token=$token";
+        $email_msg = 'Please click this link to verify your account <br>';
+        $email_msg .= '<a href="' . $link . '">Click here</a>';
+        $email_subject = 'Account verification';
         include './components/PHPMailer.php';
+        $success_msg = 'Registration is completed. A verification email is sent to your email address.';
 
         unset($fn, $ln, $email, $phone);
     } catch (Exception $e) {
