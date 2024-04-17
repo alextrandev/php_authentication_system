@@ -1,5 +1,20 @@
 <?php include './components/header.php';
 
+if (!isset($_REQUEST['email']) || !isset($_REQUEST['token'])) {
+    header("Location: " . BASE_URL . "/forget_password.php");
+    exit();
+}
+
+["email" => $email, "token" => $token] = $_REQUEST;
+$stmt = $pdo->prepare("SELECT password FROM users WHERE email=? AND token=?");
+$stmt->execute([$email, $token]);
+$total = $stmt->rowCount();
+if (!$total) {
+    header("Location: " . BASE_URL . "/forget_password.php");
+    exit();
+}
+$pwd_old = $stmt->fetch(PDO::FETCH_ASSOC)["password"];
+
 if (isset($_POST["reset_form"])) {
     ["password" => $pwd, "retype_password" => $pwd_retype] = $_POST;
     try {
@@ -10,6 +25,16 @@ if (isset($_POST["reset_form"])) {
         if ($pwd !== $pwd_retype) {
             throw new Exception('Passwords does not match');
         }
+
+        if (password_verify($pwd, $pwd_old)) {
+            throw new Exception('Cannot use old password');
+        }
+
+        $password = password_hash($pwd, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("UPDATE users SET password=?, token=?, status=? WHERE email=? AND token=?");
+        $stmt->execute([$password, '', 1, $email, $token]);
+
+        $success_msg = "Password reset successful. You can now login";
     } catch (Exception $e) {
         $error_msg = $e->getMessage();
     }
